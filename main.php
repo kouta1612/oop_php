@@ -5,6 +5,7 @@ namespace main;
 require_once 'shopping/ShippingCost.php';
 require_once 'fee/Charge.php';
 require_once 'fee/FeeFactory.php';
+require_once 'fee/FeeType.php';
 require_once 'customer/Customer.php';
 require_once 'customer/Customers.php';
 
@@ -12,6 +13,7 @@ use customer\Customer;
 use customer\Customers;
 use fee\Charge;
 use fee\FeeFactory;
+use fee\FeeType;
 use shopping\ShippingCost;
 
 shopping();
@@ -31,7 +33,7 @@ function customers()
 
     $addedCustomers = $customers->add($customerC);
     foreach ($addedCustomers->getCustomers() as $customer) {
-        echo $customer->getName() . "\n";
+        echo $customer->getName() . PHP_EOL;
     }
 }
 
@@ -43,12 +45,16 @@ function shopping()
 
     $itemPrice = ($basePrice + $shippingCost->amount());
 
-    echo $itemPrice . "\n";
+    echo $itemPrice . PHP_EOL;
 }
 
 function fee()
 {
+    // ファクトリパターン
     $adultFee = FeeFactory::feeByName('adult');
     $charge = new Charge($adultFee);
-    echo $charge->yen() . "\n";
+    echo $charge->yen() . PHP_EOL;
+
+    // Enumパターン
+    echo FeeType::Adult->yen() . PHP_EOL;
 }
